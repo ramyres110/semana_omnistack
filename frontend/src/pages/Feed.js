@@ -9,7 +9,11 @@ import like from '../assets/like.svg';
 import comment from '../assets/comment.svg';
 import send from '../assets/send.svg';
 
+import server from '../config/server';
+
 class Feed extends Component {
+    host = server.host;
+
     state = {
         feed: [],
     }
@@ -22,7 +26,7 @@ class Feed extends Component {
     }
 
     registerToSocket = () => {
-        const socket = io('http://localhost:3000');
+        const socket = io(this.host);
         //post, like
         socket.on('post', newPost => {
             this.setState({ feed: [newPost, ...this.state.feed] });
@@ -52,7 +56,7 @@ class Feed extends Component {
                             </div>
                             <img src={more} alt="Mais" />
                         </header>
-                        <img src={`http://localhost:3000/files/${post.image}`} alt="" />
+                        <img src={`${this.host}/files/${post.image}`} alt="" />
                         <footer>
                             <div className="actions">
                                 <button type="button" onClick={() => this.handleLike(post._id)}>
